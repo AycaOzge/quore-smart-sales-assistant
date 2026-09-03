@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Yönetim Paneli</title>
+</head>
+<body>
+
+    <h1>Lead Listesi</h1>
+
+    <div id="leadListesi"></div>
+<script>
+    async function leadleriGetir() {
+        const response = await fetch("/api/leads");
+        const leadler = await response.json();
+
+        const liste = document.getElementById("leadListesi");
+        liste.innerHTML = "";
+
+        leadler.forEach(function(lead) {
+            liste.innerHTML += `
+                <div>
+                    <p><strong>İsim:</strong> ${lead.isim}</p>
+                    <p><strong>Telefon:</strong> ${lead.telefon}</p>
+                    <p><strong>Mesaj:</strong> ${lead.mesaj}</p>
+                    <p><strong>Tarih:</strong> ${lead.tarih}</p>
+                    <hr>
+                </div>
+            `;
+        });
+    }
+
+    leadleriGetir();
+</script>
+</body>
+</html>

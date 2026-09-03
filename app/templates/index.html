@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Belgrad Asistanı</title>
+</head>
+<body>
+
+    <h1>Belgrad Asistanı</h1>
+
+    <h2>Bize Ulaşın</h2>
+
+    <input type="text" id="isim" placeholder="Adınız">
+    <br><br>
+
+    <input type="text" id="telefon" placeholder="Telefon Numaranız">
+    <br><br>
+
+    <textarea id="mesaj" placeholder="Mesajınız"></textarea>
+    <br><br>
+
+    <button id="gonderBtn">Gönder</button>
+
+    <p id="sonuc"></p>
+<script>
+    document.getElementById("gonderBtn").addEventListener("click", async function () {
+        const isim = document.getElementById("isim").value;
+        const telefon = document.getElementById("telefon").value;
+        const mesaj = document.getElementById("mesaj").value;
+
+        const response = await fetch("/api/leads", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                isim: isim,
+                telefon: telefon,
+                mesaj: mesaj
+            })
+        });
+
+        const data = await response.json();
+
+        document.getElementById("sonuc").innerText =
+            data.mesaj || data.hata;
+    });
+</script>
+</body>
+</html>
