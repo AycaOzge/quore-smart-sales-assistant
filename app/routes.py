@@ -12,7 +12,9 @@ def index():
 @main_bp.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
-
+@main_bp.route('/health')
+def health():
+    return jsonify({"status": "ok"}), 200
 @api_bp.route('/sohbet', methods=['POST'])
 def sohbet():
     data = request.get_json() or {}
