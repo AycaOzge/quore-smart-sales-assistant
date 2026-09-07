@@ -31,7 +31,7 @@ class AIService:
         messages.append({"role": "user", "content": mesaj})
 
         payload = {
-            "model": "openai/gpt-oss-20b",
+            "model": "llama-3.1-8b-instant",
             "messages": messages,
             "temperature": 0.7
         }
