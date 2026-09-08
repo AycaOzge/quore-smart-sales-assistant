@@ -6,6 +6,9 @@ load_dotenv()
 class Config:
     SECRET_KEY = os.getenv("SECRET_KEY")
     GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+    AI_PROVIDER = os.getenv("AI_PROVIDER", "groq")
+    DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///smartlead.db")
+    CORS_ORIGINS = os.getenv("CORS_ORIGINS", "*")
     BUSINESS_CONTEXT = """
 Sen QUORE markasının Akıllı Satış Asistanısın.
 
@@ -34,3 +37,16 @@ Yanıtlarını kısa ve öz tut. En fazla 3 kısa paragraf yaz.
 Markdown kullanma; yıldız, başlık işareti veya madde işaretleri kullanma.
 Bir cevapta en fazla 1-2 kısa soru sor.
 """
+    
+class DevelopmentConfig(Config):
+    DEBUG = True
+
+
+class ProductionConfig(Config):
+    DEBUG = False
+
+
+config_by_name = {
+    "development": DevelopmentConfig,
+    "production": ProductionConfig
+}

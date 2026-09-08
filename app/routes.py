@@ -14,7 +14,7 @@ def dashboard():
     return render_template('dashboard.html')
 @main_bp.route('/health')
 def health():
-    return jsonify({"status": "ok"}), 200
+    return jsonify({"basari": True, "status": "ok"}), 200
 @api_bp.route('/sohbet', methods=['POST'])
 def sohbet():
     data = request.get_json() or {}
@@ -22,15 +22,15 @@ def sohbet():
     gecmis = data.get('gecmis', [])
 
     if not mesaj:
-        return jsonify({"hata": "Mesaj alanı boş olamaz!"}), 400
+        return jsonify({"basari": False, "hata": "Mesaj alanı boş olamaz!"}), 400
 
     try:
         yanit = AIService.yanit_uret(mesaj, gecmis)
-        return jsonify({"yanit": yanit}), 200
+        return jsonify({"basari": True, "yanit": yanit}), 200
     except AIServiceError as e:
-        return jsonify({"hata": str(e)}), 503
+        return jsonify({"basari": False, "hata": str(e)}), 503
     except Exception as e:
-        return jsonify({"hata": f"Beklenmeyen bir hata oluştu: {str(e)}"}), 500
+        return jsonify({"basari": False, "hata": f"Beklenmeyen bir hata oluştu: {str(e)}"}), 500
 
 @api_bp.route('/leads', methods=['GET', 'POST'])
 def leads_yonetimi():
@@ -41,13 +41,13 @@ def leads_yonetimi():
         mesaj = data.get('mesaj')
 
         if not isim or not telefon or not mesaj:
-            return jsonify({"hata": "Tüm alanlar (isim, telefon, mesaj) zorunludur!"}), 400
+            return jsonify({"basari": False, "hata": "Tüm alanlar (isim, telefon, mesaj) zorunludur!"}), 400
 
         try:
             lead_ekle(isim, telefon, mesaj)
-            return jsonify({"mesaj": "Lead başarıyla kaydedildi!"}), 201
+            return jsonify({"basari": True, "mesaj": "Lead başarıyla kaydedildi!"}), 201
         except Exception as e:
-            return jsonify({"hata": f"Veritabanı hatası: {str(e)}"}), 500
+            return jsonify({"basari": False, "hata": f"Veritabanı hatası: {str(e)}"}), 500
 
     elif request.method == 'GET':
         try:
