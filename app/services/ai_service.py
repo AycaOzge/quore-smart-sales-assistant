@@ -25,8 +25,20 @@ class AIService:
         ]
 
         if gecmis:
-            for m in gecmis:
-                messages.append(m)
+    for m in gecmis:
+        rol = m.get("rol") or m.get("role")
+        icerik = m.get("icerik") or m.get("content")
+
+        if rol == "kullanici":
+            rol = "user"
+        elif rol == "asistan":
+            rol = "assistant"
+
+        if rol in ["user", "assistant"] and icerik:
+            messages.append({
+                "role": rol,
+                "content": icerik
+            })
 
         messages.append({"role": "user", "content": mesaj})
 
