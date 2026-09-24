@@ -26,6 +26,7 @@ class AIService:
 
         if gecmis:
     for m in gecmis:
+        messages.append(m)
         rol = m.get("rol") or m.get("role")
         icerik = m.get("icerik") or m.get("content")
 
