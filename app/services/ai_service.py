@@ -25,29 +25,29 @@ class AIService:
         ]
 
         if gecmis:
-    for m in gecmis:
-        messages.append(m)
-        rol = m.get("rol") or m.get("role")
-        icerik = m.get("icerik") or m.get("content")
+        for m in gecmis:
+            messages.append(m)
+            rol = m.get("rol") or m.get("role")
+            icerik = m.get("icerik") or m.get("content")
 
-        if rol == "kullanici":
-            rol = "user"
-        elif rol == "asistan":
-            rol = "assistant"
+            if rol == "kullanici":
+                rol = "user"
+            elif rol == "asistan":
+                rol = "assistant"
 
-        if rol in ["user", "assistant"] and icerik:
-            messages.append({
-                "role": rol,
-                "content": icerik
-            })
+            if rol in ["user", "assistant"] and icerik:
+                messages.append({
+                    "role": rol,
+                    "content": icerik
+                })
 
-        messages.append({"role": "user", "content": mesaj})
+            messages.append({"role": "user", "content": mesaj})
 
-        payload = {
-            "model": "openai/gpt-oss-120b",
-            "messages": messages,
-            "temperature": 0.7
-        }
+            payload = {
+                "model": "openai/gpt-oss-120b",
+                "messages": messages,
+                "temperature": 0.7
+            }
 
         try:
             response = requests.post(url, json=payload, headers=headers, timeout=10)
